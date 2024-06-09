@@ -45,7 +45,7 @@ io.on("connection", (socket)=>{
         console.log("user has been saved");
     });
 
-    socket.on("privateMsg", async ({receiverUsername, msgContent}) => {
+    socket.on("privateMsg", async ({receiverUsername, msgContent: content}) => {
         // suppose that every sender has been registered
         const sender = await User.findOne({socketId: socket.id});
         const receiver = await User.findOne({username:receiverUsername});
@@ -75,11 +75,11 @@ io.on("connection", (socket)=>{
 
             await new Message({
                 sender: sender._id,
-                content: msgContent,
+                content,
                 chat: chat._id
             }).save();
 
-            socket.to(receiver.socketId).emit("receivePrivateMsg",msgContent);
+            socket.to(receiver.socketId).emit("receivePrivateMsg",{sender:sender.username, content});
         }
     });
 
@@ -102,6 +102,18 @@ io.on("connection", (socket)=>{
         socket.join(roomName);
         console.log(`User ${socket.id} has been joined to ${roomName}`);
     });
+
+    socket.on("groupMessage", async({roomName, content})=>{
+        const sender = await User.findOne({socketId: socket.id});
+        const chat = await Chat.findOne({chatName:roomName});
+        await new Message({
+            sender: sender._id,
+            content,
+            chat:chat._id
+        }).save();
+
+        socket.to(roomName).emit("receiveGroupMessage", {sender:sender.username, content, roomName })
+    })
 
     socket.on("disconnect", ()=>{
         console.log(`User:${socket.id} has been disconnected!`);
