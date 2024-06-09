@@ -92,7 +92,7 @@ io.on("connection", (socket)=>{
         let chat = await Chat.findOne({chatName:roomName});
 
         if(chat){
-            chat.users.push(user._id);
+            chat.users = [...new Set([...chat.users, user._id])];
         }
         else{
             chat = new Chat({
