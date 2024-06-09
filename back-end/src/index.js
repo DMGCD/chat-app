@@ -83,7 +83,7 @@ io.on("connection", (socket)=>{
                 chat: chat._id
             }).save();
 
-            socket.to(receiver.socketId).emit("receivePrivateMsg",{sender:sender.username, content});
+            socket.to(receiver.socketId).emit("receivePrivateMsg",{sender:sender._id, content});
         }
     });
 
