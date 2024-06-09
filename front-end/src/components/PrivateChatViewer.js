@@ -66,8 +66,8 @@ const PrivateChatViewer = ({userInfo}) => {
             <h2 className='capitalize text-xl font-bold bg-yellow-900 w-full px-5 py-5 text-center text-white'>{userInfo.username}</h2>
             <div className='px-10 overflow-y-auto h-[600px]'>{messages.map((message)=>message.sender===currentUser._id?<OwnMessage key={message._id} content={message.content} />:<OthersMessage key={message._id} senderId={''} content={message.content} />)}</div>
         </div>
-        <div className='w-full flex gap-5'>
-            <input className='border-2 border-black w-11/12 text-lg px-10 py-2' type='text' ref={messageRef} placeholder='Message' />
+        <div className='w-full flex gap-5 px-10'>
+            <input className='border-2 border-black w-11/12 text-lg px-10 py-3' type='text' ref={messageRef} placeholder='Message' />
             <button className='py-2 text-lg bg-black w-1/12 text-white border-2 border-black' onClick={sendMessage}>Send</button>
         </div>
     </div>
