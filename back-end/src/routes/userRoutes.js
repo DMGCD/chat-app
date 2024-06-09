@@ -1,7 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 import User from '../model/User.js';
 
-const userRouter = express.Router();
+const userRouter = Router();
 
 // get all users
 userRouter.get('/', async(_, res) => {

@@ -8,6 +8,8 @@ import User from './model/User.js';
 import userRouter from './routes/userRoutes.js';
 import Message from './model/Message.js';
 import Chat from './model/Chat.js';
+import messageRouter from './routes/messageRoutes.js';
+import chatRouter from './routes/chatRoutes.js';
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ app.use(cors());
 app.use(json());
 
 app.use("/api/user", userRouter);
+app.use("/api/message", messageRouter);
+app.use("/api/chat", chatRouter);
 
 const server = http.createServer(app);
 
@@ -71,7 +75,7 @@ io.on("connection", (socket)=>{
                 return chat;
             }
 
-            const chat = getChat();
+            const chat = await getChat();
 
             await new Message({
                 sender: sender._id,
