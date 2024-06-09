@@ -49,7 +49,7 @@ io.on("connection", (socket)=>{
         console.log("user has been saved");
     });
 
-    socket.on("privateMsg", async ({receiverUsername, msgContent: content}) => {
+    socket.on("privateMsg", async ({receiverUsername, content}) => {
         // suppose that every sender has been registered
         const sender = await User.findOne({socketId: socket.id});
         const receiver = await User.findOne({username:receiverUsername});
