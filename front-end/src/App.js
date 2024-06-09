@@ -1,4 +1,4 @@
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import './App.css';
 import { io } from 'socket.io-client';
 import Login from './components/Login';
@@ -41,20 +41,20 @@ function App() {
   //     socket.emit('joinRoom',roomName);
   // }
 
-  // useEffect(()=>{
-  //   socket.on("receivePrivateMsg", (data)=>{
-  //     console.log("private message",data);
-  //   })
+  useEffect(()=>{
+    socket.on("receivePrivateMsg", (data)=>{
+      console.log("private message",data);
+    })
 
-  //   socket.on("receiveGroupMessage", (data)=>{
-  //     console.log(data);
-  //   })
+    socket.on("receiveGroupMessage", (data)=>{
+      console.log(data);
+    })
 
-  //   socket.on("error",data => {
-  //     console.log(data);
-  //   })
+    socket.on("error",data => {
+      console.log(data);
+    })
 
-  // },[socket]);
+  },[socket]);
 
   return (
     <AppContext.Provider value={{ socket, setIsLogged, username, setUsername }}>

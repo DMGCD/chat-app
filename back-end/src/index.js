@@ -90,7 +90,7 @@ io.on("connection", (socket)=>{
     socket.on("joinRoom", async(roomName)=>{
         const user = await User.findOne({socketId: socket.id});
         let chat = await Chat.findOne({chatName:roomName});
-
+ 
         if(chat){
             chat.users = [...new Set([...chat.users, user._id])];
         }
@@ -110,13 +110,16 @@ io.on("connection", (socket)=>{
     socket.on("groupMessage", async({roomName, content})=>{
         const sender = await User.findOne({socketId: socket.id});
         const chat = await Chat.findOne({chatName:roomName});
-        await new Message({
+        
+        const message =  new Message({
             sender: sender._id,
             content,
             chat:chat._id
-        }).save();
+        })
 
-        socket.to(roomName).emit("receiveGroupMessage", {sender:sender.username, content, roomName })
+        await message.save();
+        
+        socket.to(roomName).emit("receiveGroupMessage", {sender:sender._id, content})
     })
 
     socket.on("disconnect", ()=>{

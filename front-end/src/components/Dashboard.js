@@ -10,8 +10,8 @@ export const DashboardContext = createContext();
 const Dashboard = () => {
     const { username } = useContext(AppContext);
     const [currentUser, setCurrentUser] = useState();
-    const [chats, setChats] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [chats, setChats] = useState();
+    const [users, setUsers] = useState();
 
     const [activeGroupChat, setActiveGroupChat] = useState();
     const [activePrivateChat, setActivePrivateChat] = useState();

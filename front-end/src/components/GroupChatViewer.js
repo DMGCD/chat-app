@@ -28,11 +28,16 @@ const GroupChatViewer = ({chatInfo}) => {
     }
 
     useEffect(()=>{
+        socket.emit("joinRoom", chatInfo.chatName);
+    },[])
+
+    useEffect(()=>{
         fetchMessages(chatInfo._id);
     },[chatInfo]);
 
     useEffect(()=>{
         socket.on("receiveGroupMessage", ({sender, content})=>{
+            console.log('hello');
             setMessages(prevMsg=>[...prevMsg,{_id:prevMsg.length, sender, content}]);
         });
     },[socket]);
