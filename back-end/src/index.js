@@ -24,6 +24,13 @@ const io = new Server(server, {
 
 io.on("connection", (socket)=>{
     console.log(`User:${socket.id} has been connected!`);
+
+    
+
+    socket.on("disconnect", ()=>{
+        console.log(`User:${socket.id} has been disconnected!`);
+    })
+
 })
 
 server.listen(PORT, ()=> {
