@@ -3,7 +3,7 @@ import { AppContext } from '../App';
 
 const Login = () => {
 
-    const { socket, setIsLogged } = useContext(AppContext);
+    const { socket, setIsLogged, setUsername } = useContext(AppContext);
 
     const usernameRef = useRef();
 
@@ -11,6 +11,7 @@ const Login = () => {
         const username = usernameRef.current.value;
         if (username !== ""){
             socket.emit("registerUser", { username });
+            setUsername(username);
             setIsLogged(true);
         }
     }

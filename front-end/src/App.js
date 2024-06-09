@@ -7,9 +7,11 @@ import Dashboard from './components/Dashboard';
 const socket = io.connect("http://localhost:8080");
 
 export const AppContext = createContext();
+export const apiUrl = "http://localhost:8080/api";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
+  const [username, setUsername] = useState("");
 
   // const register = () => {
   //   const username = usernameRef.current.value;
@@ -55,7 +57,7 @@ function App() {
   // },[socket]);
 
   return (
-    <AppContext.Provider value={{ socket, setIsLogged }}>
+    <AppContext.Provider value={{ socket, setIsLogged, username, setUsername }}>
       {!isLogged? <Login />:<Dashboard />}
     </AppContext.Provider>
   );
