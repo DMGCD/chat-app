@@ -57,7 +57,7 @@ const PrivateChatViewer = ({userInfo}) => {
   return (
     <div>
         <h2>{userInfo.username}</h2>
-        <div>{messages.map((message)=>message.sender===currentUser._id?<OwnMessage key={message._id} content={message.content} />:<OthersMessage key={message._id} senderId={message.sender} content={message.content} />)}</div>
+        <div>{messages.map((message)=>message.sender===currentUser._id?<OwnMessage key={message._id} content={message.content} />:<OthersMessage key={message._id} senderId={''} content={message.content} />)}</div>
         <div>
             <input type='text' ref={messageRef} />
             <button onClick={sendMessage}>Send</button>

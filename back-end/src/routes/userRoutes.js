@@ -13,10 +13,24 @@ userRouter.get('/', async(_, res) => {
     }
 });
 
-userRouter.get('/:username', async (req, res) => {
+userRouter.get('/username/:username', async (req, res) => {
     const username = req.params.username;
     try {
         const user = await User.findOne({username});
+        if (!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+        res.json(user);
+    }
+    catch(error) {
+        res.status(500).json({message:`Error fetching user ${username}`, error});
+    }
+})
+
+userRouter.get('/id/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({message: "User not found"});
         }

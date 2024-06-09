@@ -8,7 +8,7 @@ import PrivateChatViewer from './PrivateChatViewer';
 export const DashboardContext = createContext();
 
 const Dashboard = () => {
-    const { username } = useContext(AppContext);
+    const { username, socket } = useContext(AppContext);
     const [currentUser, setCurrentUser] = useState();
     const [chats, setChats] = useState();
     const [users, setUsers] = useState();
@@ -17,7 +17,7 @@ const Dashboard = () => {
     const [activePrivateChat, setActivePrivateChat] = useState();
 
     const fetchCurrentUser = async() => {
-        await axios.get(`${apiUrl}/user/${username}`)
+        await axios.get(`${apiUrl}/user/username/${username}`)
         .then(res=>{
             console.log(res.data);
             setCurrentUser(res.data);
@@ -49,13 +49,19 @@ const Dashboard = () => {
         fetchAllChats();
     },[]);
 
+    useEffect(()=>{
+        socket.on("newUser", ()=>{
+            fetchAllUsers();
+        })
+    },[socket]);
+
   return (
-    <DashboardContext.Provider value={{ currentUser, chats, users, setActiveGroupChat, setActivePrivateChat }} >
-        <div>
+    <DashboardContext.Provider value={{ currentUser, chats, users, setChats, setUsers, setActiveGroupChat, setActivePrivateChat, fetchAllChats, fetchAllUsers }} >
+        {currentUser?<div>
             <ChatPanel />
             {activeGroupChat?<GroupChatViewer chatInfo={activeGroupChat} />:null}
             {activePrivateChat?<PrivateChatViewer userInfo={activePrivateChat} />:null}
-        </div>
+        </div>:null}
     </DashboardContext.Provider>
   )
 }

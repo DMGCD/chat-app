@@ -47,6 +47,7 @@ io.on("connection", (socket)=>{
             user.socketId = socket.id;
         await user.save();
         console.log("user has been saved");
+        socket.broadcast.emit("newUser");
     });
 
     socket.on("privateMsg", async ({receiverUsername, content}) => {
@@ -104,6 +105,7 @@ io.on("connection", (socket)=>{
         await chat.save();
     
         socket.join(roomName);
+        socket.broadcast.emit("newRooms",{roomName, chatId:chat._id});
         console.log(`User ${socket.id} has been joined to ${roomName}`);
     });
 
