@@ -11,8 +11,6 @@ const PrivateChatViewer = ({userInfo}) => {
 
     const { currentUser } = useContext(DashboardContext);
     const [messages, setMessages] = useState([]);
-    const [tempMessages, setTempMessages] = useState([]);
-    // const [currentChatInfo, setCurrentChatInfo] = useState();
 
     const messageRef = useRef();
 
@@ -58,7 +56,6 @@ const PrivateChatViewer = ({userInfo}) => {
     },[]);
   return (
     <div>
-        {/* Message Header */}
         <h2>{userInfo.username}</h2>
         <div>{messages.map((message)=>message.sender===currentUser._id?<OwnMessage key={message._id} content={message.content} />:<OthersMessage key={message._id} senderId={message.sender} content={message.content} />)}</div>
         <div>
