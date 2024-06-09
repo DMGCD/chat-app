@@ -12,12 +12,14 @@ const Login = () => {
         if (username !== ""){
             socket.emit("registerUser", { username });
             setUsername(username);
-            setIsLogged(true);
+            setTimeout(() => {
+                setIsLogged(true);
+            }, 500);
         }
     }
 
   return (
-    <div>
+    <div className='login'>
         <input ref={usernameRef} type='text' placeholder='Username' autoFocus />
         <button onClick={login}>Login</button>
     </div>
