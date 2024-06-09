@@ -1,9 +1,9 @@
 import React from 'react'
 
-const OthersMessage = ({username, content}) => {
+const OthersMessage = ({senderId, content}) => {
   return (
     <div>
-        <p>{username}</p>
+        <p>{senderId}</p>
         <p>{content}</p>
     </div>
   )

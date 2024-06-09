@@ -3,7 +3,7 @@ import React from 'react'
 const OwnMessage = ({content}) => {
   return (
     <div>
-        <p>{content}</p>
+        <p style={{color:"red"}}>{content}</p>
     </div>
   )
 }
