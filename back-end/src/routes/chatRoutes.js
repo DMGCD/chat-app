@@ -9,8 +9,8 @@ chatRouter.get("/", async(_,res)=>{
 })
 
 chatRouter.get('/private-chat', async(req, res)=>{
-    const username1 = req.body.username1;
-    const username2 = req.body.username2;
+    const username1 = req.query.username1;
+    const username2 = req.query.username2;
 
     if (username1 === null || username2 === null)
         res.status(400).send({message: "User Id cannot be null"});
