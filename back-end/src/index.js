@@ -2,8 +2,10 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io';
+import dotenv from 'dotenv';
 
-const PORT = 8080;
+dotenv.config();
+const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
 
