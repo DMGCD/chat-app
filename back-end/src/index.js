@@ -3,8 +3,12 @@ import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import dotenv from 'dotenv';
+import connectDB from './config/db.js';
 
 dotenv.config();
+
+connectDB()
+
 const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
@@ -23,5 +27,5 @@ io.on("connection", (socket)=>{
 })
 
 server.listen(PORT, ()=> {
-    console.log(`SERVER IS RUNNING ON PORT:${PORT}`);
+    console.log(`SERVER IS RUNNING ON ${PORT}`);
 })
