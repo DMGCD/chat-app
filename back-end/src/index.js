@@ -73,7 +73,7 @@ io.on("connection", (socket)=>{
 
             const chat = getChat();
 
-            new Message({
+            await new Message({
                 sender: sender._id,
                 content: msgContent,
                 chat: chat._id
@@ -81,7 +81,27 @@ io.on("connection", (socket)=>{
 
             socket.to(receiver.socketId).emit("receivePrivateMsg",msgContent);
         }
-    })
+    });
+
+    socket.on("joinRoom", async(roomName)=>{
+        const user = await User.findOne({socketId: socket.id});
+        let chat = await Chat.findOne({chatName:roomName});
+
+        if(chat){
+            chat.users.push(user._id);
+        }
+        else{
+            chat = new Chat({
+                chatName: roomName,
+                isGroupChat: true,
+                users:[user._id]
+            })
+        }
+        await chat.save();
+    
+        socket.join(roomName);
+        console.log(`User ${socket.id} has been joined to ${roomName}`);
+    });
 
     socket.on("disconnect", ()=>{
         console.log(`User:${socket.id} has been disconnected!`);
