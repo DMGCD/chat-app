@@ -1,6 +1,5 @@
 import { Router } from "express";
 import Chat from "../model/Chat.js";
-import User from "../model/User.js";
 
 const chatRouter = Router()
 
