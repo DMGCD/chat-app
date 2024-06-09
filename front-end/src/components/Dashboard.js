@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { AppContext, apiUrl } from '../App';
 import axios from 'axios';
 import ChatPanel from './ChatPanel';
+import GroupChatViewer from './GroupChatViewer';
+import PrivateChatViewer from './PrivateChatViewer';
 
 export const DashboardContext = createContext();
 
@@ -10,6 +12,9 @@ const Dashboard = () => {
     const [currentUser, setCurrentUser] = useState();
     const [chats, setChats] = useState([]);
     const [users, setUsers] = useState([]);
+
+    const [activeGroupChat, setActiveGroupChat] = useState();
+    const [activePrivateChat, setActivePrivateChat] = useState();
 
     const fetchCurrentUser = async() => {
         await axios.get(`${apiUrl}/user/${username}`)
@@ -45,9 +50,11 @@ const Dashboard = () => {
     },[]);
 
   return (
-    <DashboardContext.Provider value={{ currentUser, chats, users }} >
+    <DashboardContext.Provider value={{ currentUser, chats, users, setActiveGroupChat, setActivePrivateChat }} >
         <div>
             <ChatPanel />
+            {activeGroupChat?<GroupChatViewer chatInfo={activeGroupChat} />:null}
+            {activePrivateChat?<PrivateChatViewer userInfo={activePrivateChat} />:null}
         </div>
     </DashboardContext.Provider>
   )
