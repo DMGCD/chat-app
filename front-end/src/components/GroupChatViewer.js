@@ -43,12 +43,14 @@ const GroupChatViewer = ({chatInfo}) => {
     },[socket]);
 
   return (
-    <div>
-        <h2>{chatInfo.chatName}</h2>
-        <div>{messages.map(message=>message.sender===currentUser._id?<OwnMessage content={message.content} key={message._id}/>:<OthersMessage key={message._id} content={message.content} senderId={message.sender} />)}</div>
-        <div>
-            <input type='text' ref={messageRef} />
-            <button onClick={sendMessage}>Send</button>
+    <div className='w-full h-full flex flex-col justify-between items-start pb-20'>
+        <div className='w-full'>
+            <h2 className='capitalize text-xl font-bold bg-yellow-900 w-full px-5 py-5 text-center text-white'>{chatInfo.chatName}</h2>
+            <div  className='px-10 overflow-y-auto h-[600px]'>{messages.map(message=>message.sender===currentUser._id?<OwnMessage content={message.content} key={message._id}/>:<OthersMessage key={message._id} content={message.content} senderId={message.sender} />)}</div>
+        </div>
+        <div className='w-full flex gap-5 px-5'>
+            <input  className='border-2 border-black w-11/12 text-lg px-10 py-2' type='text' ref={messageRef} placeholder='Message' />
+            <button className='py-2 text-lg bg-black w-1/12 text-white border-2 border-black' onClick={sendMessage}>Send</button>
         </div>
     </div>
   )

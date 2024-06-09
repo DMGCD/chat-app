@@ -57,10 +57,12 @@ const Dashboard = () => {
 
   return (
     <DashboardContext.Provider value={{ currentUser, chats, users, setChats, setUsers, setActiveGroupChat, setActivePrivateChat, fetchAllChats, fetchAllUsers }} >
-        {currentUser?<div>
+        {currentUser?<div className='h-screen w-full flex justify-center'>
             <ChatPanel />
-            {activeGroupChat?<GroupChatViewer chatInfo={activeGroupChat} />:null}
-            {activePrivateChat?<PrivateChatViewer userInfo={activePrivateChat} />:null}
+            <div className='w-2/3'>
+                {activeGroupChat?<GroupChatViewer chatInfo={activeGroupChat} />:null}
+                {activePrivateChat?<PrivateChatViewer userInfo={activePrivateChat} />:null}
+            </div>
         </div>:null}
     </DashboardContext.Provider>
   )

@@ -29,14 +29,20 @@ const PrivateChatViewer = ({userInfo}) => {
         .then(res=>{
             if (res.data!== null)
                 fetchMessages(res.data._id);
+            else
+                fetchMessages(null);
         })
         .catch(err=>console.error(err));
     }
 
     const fetchMessages = async(chatId) => {
-        await axios.get(`${apiUrl}/message/${chatId}`)
-        .then(res=>setMessages(res.data))
-        .catch(err=>console.error(err));
+        if (chatId===null)
+            setMessages([]);
+        else {
+            await axios.get(`${apiUrl}/message/${chatId}`)
+            .then(res=>setMessages(res.data))
+            .catch(err=>console.error(err));
+        }
     }
 
     // add usestate when mounting the component to fetch all the messages from the database
@@ -55,12 +61,14 @@ const PrivateChatViewer = ({userInfo}) => {
         console.log("private chat mounted")
     },[]);
   return (
-    <div>
-        <h2>{userInfo.username}</h2>
-        <div>{messages.map((message)=>message.sender===currentUser._id?<OwnMessage key={message._id} content={message.content} />:<OthersMessage key={message._id} senderId={''} content={message.content} />)}</div>
-        <div>
-            <input type='text' ref={messageRef} />
-            <button onClick={sendMessage}>Send</button>
+    <div className='w-full h-full flex flex-col justify-between items-start pb-20'>
+        <div className='w-full'>
+            <h2 className='capitalize text-xl font-bold bg-yellow-900 w-full px-5 py-5 text-center text-white'>{userInfo.username}</h2>
+            <div className='px-10 overflow-y-auto h-[600px]'>{messages.map((message)=>message.sender===currentUser._id?<OwnMessage key={message._id} content={message.content} />:<OthersMessage key={message._id} senderId={''} content={message.content} />)}</div>
+        </div>
+        <div className='w-full flex gap-5'>
+            <input className='border-2 border-black w-11/12 text-lg px-10 py-2' type='text' ref={messageRef} placeholder='Message' />
+            <button className='py-2 text-lg bg-black w-1/12 text-white border-2 border-black' onClick={sendMessage}>Send</button>
         </div>
     </div>
   )
